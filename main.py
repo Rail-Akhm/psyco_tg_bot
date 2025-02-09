@@ -40,7 +40,7 @@ async def get_phone(update, context):
     return ConversationHandler.END
 
 # 4. Настройка обработчиков
-application = ApplicationBuilder().token("5711843919:AAE84jLXTv80hU2SF_v4-tIkxxz8fy9sF20").build()
+application = ApplicationBuilder().token("TOKEN").build()
 
 conv_handler = ConversationHandler(
     entry_points=[CommandHandler('start', start)],
