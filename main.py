@@ -42,25 +42,32 @@ async def handle_question_1(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_question_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_age = update.message.text  # Сохраняем ответ
     context.user_data['user_age'] = user_age  # Сохраняем имя в контексте
-    await update.message.reply_text(f"Ок, {context.user_data['name']}!")
-    await update.message.reply_text("Вопрос 3: Напиши номер телефона?")
-    return QUESTION_3  # Переходим ко второму вопросу
+    if not user_age.replace(" ", "").isdigit():  # Убираем пробелы и проверяем, что остальное — цифры
+        await update.message.reply_text("Ошибка: возраст может состоять только из цифр. Попробуйте еще раз.")
+        return QUESTION_2  # Возвращаемся к предыдущему вопросу
+    else:   
+        await update.message.reply_text(f"Ок, {context.user_data['name']}!")
+        await update.message.reply_text("Вопрос 3: Напиши номер телефона?")
+        return QUESTION_3  # Переходим ко второму вопросу
 
 # Обработчик второго вопроса
 async def handle_question_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_number = update.message.text  # Сохраняем ответ
     context.user_data['user_number'] = user_number  # Сохраняем возраст в контексте
-
+    if not user_number.replace(" ", "").isdigit():  # Убираем пробелы и проверяем, что остальное — цифры
+        await update.message.reply_text("Ошибка: номер может состоять только из цифр. Попробуйте еще раз.")
+        return QUESTION_3  # Возвращаемся к предыдущему вопросу
+    else:  
     # Получаем сохраненные данные из контекста
-    name = context.user_data.get('name', 'неизвестно')
-    user_age = context.user_data.get('user_age', 'неизвестно')
-    user_number = context.user_data.get('user_number', 'неизвестно')
+        name = context.user_data.get('name', 'неизвестно')
+        user_age = context.user_data.get('user_age', 'неизвестно')
+        user_number = context.user_data.get('user_number', 'неизвестно')
 
-    await update.message.reply_text(f"Спасибо за ответы!\n"
-                                   f"Твое имя: {name}\n"
-                                   f"Тебе {user_age} лет.\n"
-                                   f"Твой номер {user_number}")
-    return ConversationHandler.END  # Завершаем диалог
+        await update.message.reply_text(f"Спасибо за ответы!\n"
+                                    f"Твое имя: {name}\n"
+                                    f"Тебе {user_age} лет.\n"
+                                    f"Твой номер {user_number}")
+        return ConversationHandler.END  # Завершаем диалог
 
 # Обработчик отмены диалога
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
