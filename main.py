@@ -1,3 +1,8 @@
+import yadisk
+from yadisk import YaDisk
+from config import yadis_token
+import pandas as pd
+import os
 import logging
 from telegram import Update
 from telegram.ext import (
@@ -9,6 +14,8 @@ from telegram.ext import (
     filters
 )
 from config import bot_token
+y = YaDisk(token=yadis_token)
+client = yadisk.Client(token=yadis_token)
 
 # Настройка логирования
 logging.basicConfig(
@@ -67,6 +74,30 @@ async def handle_question_3(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                     f"Твое имя: {name}\n"
                                     f"Тебе {user_age} лет.\n"
                                     f"Твой номер {user_number}")
+        
+        with client:
+            # Проверяет, валиден ли токен
+            print(client.check_token())
+
+            y.download("/Телеграм Бот Психология/tg_bot_psycho.xlsx", "tg_bot_psycho.xlsx")
+
+            # 2. Читаем Excel-файл
+            df = pd.read_excel("tg_bot_psycho.xlsx")
+
+            # 3. Добавляем новую строку
+            new_row = {"Имя": name, "Возраст": user_age, "Номер телефона": user_number}  # Новая строка
+            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+
+            # 4. Сохраняем обновленный файл
+            df.to_excel("tg_bot_psycho.xlsx", index=False)
+
+            y.upload("tg_bot_psycho.xlsx", "/Телеграм Бот Психология/tg_bot_psycho.xlsx", overwrite=True)
+        
+        if os.path.exists("tg_bot_psycho.xlsx"):
+            os.remove("tg_bot_psycho.xlsx")
+            print("Локальный файл удалён")
+        else:
+            print("Локальный файл не найден")
         return ConversationHandler.END  # Завершаем диалог
 
 # Обработчик отмены диалога
