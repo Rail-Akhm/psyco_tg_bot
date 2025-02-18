@@ -1,7 +1,7 @@
 import yadisk
+from config import yadis_token
 
-
-client = yadisk.Client(token="")
+client = yadisk.Client(token=yadis_token)
 # или
 # client = yadisk.Client("<id-приложения>", "<secret-приложения>", "<токен>")
 
