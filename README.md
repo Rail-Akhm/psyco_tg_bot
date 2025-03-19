@@ -17,7 +17,7 @@ Telegram-бот для сбора информации о клиентах и а
 ## 🛠️ Установка
 1. Клонировать репозиторий:
 ```bash
-git clone https://github.com/yourusername/psychologist-bot.git
+git clone https://github.com/Rail-Akhm/psyco_tg_bot
 cd psychologist-bot
 Установить зависимости:
 
