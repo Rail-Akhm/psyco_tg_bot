@@ -73,4 +73,4 @@ psychologist-bot/
 MIT License. Подробнее в файле LICENSE.
 
 📧 Контакты
-По вопросам сотрудничества: ваш_email@example.com
+По вопросам сотрудничества: rail.ahm3tshin@yandex.ru, railakhmetshin@gmail.com
